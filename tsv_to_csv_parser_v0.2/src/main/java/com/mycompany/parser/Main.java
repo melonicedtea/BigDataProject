@@ -6,20 +6,13 @@
 package com.mycompany.parser;
 
 import java.io.File;
-<<<<<<< 08b1f1c8caeb884156b6f6f3f261bee10824f23b:Parser/src/main/java/com/mycompany/parser/Main.java
-import java.io.FileNotFoundException;
-=======
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> data class implemented:tsv_to_csv_parser_v0.2/src/main/java/com/mycompany/parser/Main.java
 import java.util.Scanner;
-import java.util.regex.Pattern;
-
-
 
 /**
  *
@@ -27,30 +20,6 @@ import java.util.regex.Pattern;
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
-<<<<<<< 08b1f1c8caeb884156b6f6f3f261bee10824f23b:Parser/src/main/java/com/mycompany/parser/Main.java
-    public static void main(String[] args) {
-        // TODO code application logic here
-        try {
-      File myObj = new File("resources/text.txt");
-      Scanner myReader = new Scanner(myObj);
-      while (myReader.hasNextLine()) {
-        String data = myReader.nextLine();
-        System.out.println(data);
- 
-        String result = data.replaceAll("[\"]", ";");
-        System.out.println(result);
-      }
-      myReader.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("An error occurred.");
-      e.printStackTrace();
-    }
-    }
-    
-=======
     public static void main(String[] args) throws IOException {
         // TODO IOException
         // TODO more commenting
@@ -60,7 +29,7 @@ public class Main {
 
         File myObj = new File(fileToParse);
         Scanner myReader = new Scanner(myObj);
-        
+
         while (myReader.hasNextLine()) {
             Data data = new Data(myReader.nextLine());
             data.replaceCommas();
@@ -74,5 +43,4 @@ public class Main {
         Path file = Paths.get(fileParsed);
         Files.write(file, lines);
     }
->>>>>>> data class implemented:tsv_to_csv_parser_v0.2/src/main/java/com/mycompany/parser/Main.java
 }
