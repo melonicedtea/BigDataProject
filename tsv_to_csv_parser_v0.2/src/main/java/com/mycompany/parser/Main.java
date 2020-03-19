@@ -40,6 +40,8 @@ public class Main {
             //add parsed lines to array
             lines.add(data.getLineString());
         }
+        
+        myReader.close();
         Path file = Paths.get(fileParsed);
         Files.write(file, lines);
     }
