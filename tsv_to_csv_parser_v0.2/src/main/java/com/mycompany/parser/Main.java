@@ -23,6 +23,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // TODO IOException
         // TODO more commenting
+        System.out.println("Parsing...");
+
         List<String> lines = new ArrayList<>();
         String fileToParse = "resources/data.tsv"; // replace with to be parsed file path
         String fileParsed = "resources/dataParsed.csv"; // replace with output path
@@ -36,7 +38,7 @@ public class Main {
             data.replaceTabs();
 
             //print to console
-            System.out.println(data.getLineString());
+            //System.out.println(data.getLineString());
             //add parsed lines to array
             lines.add(data.getLineString());
         }
@@ -44,5 +46,7 @@ public class Main {
         myReader.close();
         Path file = Paths.get(fileParsed);
         Files.write(file, lines);
+        
+        System.out.println("Parsing completed!");
     }
 }
