@@ -32,11 +32,14 @@ public class Main {
 
         while (myReader.hasNextLine()) {
             Data data = new Data(myReader.nextLine());
+            data.replaceQuotations();
+            data.replaceHooks();
             data.replaceCommas();
             data.replaceTabs();
+            
 
             //print to console
-            System.out.println(data.getLineString());
+            //System.out.println(data.getLineString());
             //add parsed lines to array
             lines.add(data.getLineString());
         }
