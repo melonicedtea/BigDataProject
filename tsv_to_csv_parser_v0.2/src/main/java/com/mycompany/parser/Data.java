@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.parser;
 
 /**
  *
  * @author darkblade
  */
+
+package com.mycompany.parser;
+
+
 public class Data{
     
     String line;
