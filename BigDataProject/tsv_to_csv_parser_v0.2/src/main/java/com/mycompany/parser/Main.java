@@ -10,6 +10,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -28,26 +31,42 @@ public class Main {
         List<String> lines = new ArrayList<>();
         String fileToParse = "resources/new.tsv";
         String fileParsed = "resources/dataParsed.csv";
-        String pattern = "(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*)";
-        Pattern titlePattern = Pattern.compile(pattern);
+        String pattern = "(.*)";
+        String delimiter = "|";
+        int groupCount = 1;
 
         try {
             File myObj = new File(fileToParse);
             try (Scanner myReader = new Scanner(myObj)) {
+                String firstLine = myReader.nextLine();
+                for(int i = 0; i < firstLine.length(); i++){
+                    if(firstLine.charAt(i) == '\t'){
+                        groupCount++;
+                    }
+                }
+                for(int j = 1; j < groupCount; j++){
+                    pattern = "(.*?)\t" + pattern;
+                }
+                Pattern titlePattern = Pattern.compile(pattern);
+
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
+                    String line = "";
                     Matcher m = titlePattern.matcher(data);
                     if (m.find()) {
-                        System.out.println(m.group(9));
+                        for(int i = 1; i < m.groupCount(); i++){
+                            line = line + m.group(i) + delimiter;
+                        }
+                        line = line + m.group(m.groupCount());
                     }
                     else {
                         System.out.println("no match");
                     }
 
-                    // lines.add(data);
+                    lines.add(line);
                 }
-                //Path file = Paths.get(fileParsed);
-                //Files.write(file, lines);
+                Path file = Paths.get(fileParsed);
+                Files.write(file, lines);
             }
 
         } catch (FileNotFoundException e) {
