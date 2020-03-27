@@ -32,6 +32,8 @@ public class Main {
 
         while (myReader.hasNextLine()) {
             Data data = new Data(myReader.nextLine());
+            data.replaceQuotations();
+            data.replaceHooks();
             data.replaceCommas();
             data.replaceTabs();
 
