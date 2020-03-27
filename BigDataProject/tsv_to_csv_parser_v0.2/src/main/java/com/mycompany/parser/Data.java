@@ -26,6 +26,13 @@ public class Data{
     void replaceTabs() {
         line = line.replaceAll("\\t", ",");
     }
+    void replaceHooks() {
+        line = line.replaceAll("[\\[\\]]", "");
+    }
+
+    void replaceQuotations() {
+        line = line.replaceAll("\"", "");
+    }
     
     //get line
     String getLineString(){
