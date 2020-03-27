@@ -6,13 +6,13 @@
 package com.mycompany.parser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  *
@@ -20,33 +20,40 @@ import java.util.Scanner;
  */
 public class Main {
 
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) throws IOException {
-        // TODO IOException
-        // TODO more commenting
-        System.out.println("Parsing...");
-
+        // TODO code application logic here
         List<String> lines = new ArrayList<>();
-        String fileToParse = "resources/data.tsv"; // replace with to be parsed file path
-        String fileParsed = "resources/dataParsed.csv"; // replace with output path
+        String fileToParse = "resources/new.tsv";
+        String fileParsed = "resources/dataParsed.csv";
+        String pattern = "(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*)";
+        Pattern titlePattern = Pattern.compile(pattern);
 
-        File myObj = new File(fileToParse);
-        Scanner myReader = new Scanner(myObj);
+        try {
+            File myObj = new File(fileToParse);
+            try (Scanner myReader = new Scanner(myObj)) {
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    Matcher m = titlePattern.matcher(data);
+                    if (m.find()) {
+                        System.out.println(m.group(9));
+                    }
+                    else {
+                        System.out.println("no match");
+                    }
 
-        while (myReader.hasNextLine()) {
-            Data data = new Data(myReader.nextLine());
-            data.replaceCommas();
-            data.replaceTabs();
+                    // lines.add(data);
+                }
+                //Path file = Paths.get(fileParsed);
+                //Files.write(file, lines);
+            }
 
-            //print to console
-            //System.out.println(data.getLineString());
-            //add parsed lines to array
-            lines.add(data.getLineString());
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
         }
-        
-        myReader.close();
-        Path file = Paths.get(fileParsed);
-        Files.write(file, lines);
-        
-        System.out.println("Parsing completed!");
     }
+
+
 }
