@@ -27,12 +27,13 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        // TODO code application logic here
+        System.out.println("parsing..");
         List<String> lines = new ArrayList<>();
         String fileToParse = "resources/new.tsv";
-        String fileParsed = "resources/dataParsed.csv";
+        String fileParsed = "resources/csv/new.csv";
         String pattern = "(.*)";
         String delimiter = "|";
+        String quote = "\"";
         int groupCount = 1;
 
         try {
@@ -51,23 +52,43 @@ public class Main {
 
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
+                    
+                    if(data.contains("\"")){
+                        data = data.replaceAll("\"", "\"\"");
+                    }
+
                     String line = "";
                     Matcher m = titlePattern.matcher(data);
                     if (m.find()) {
+                        
                         for(int i = 1; i < m.groupCount(); i++){
-                            line = line + m.group(i) + delimiter;
+                            if(m.group(i).contains(",") || m.group(i).contains("\"")){
+                
+                                line = line + quote + m.group(i) + quote + delimiter;
+                            }
+                            else{   
+                                line = line + m.group(i) + delimiter;
+                            }
+                            
                         }
-                        line = line + m.group(m.groupCount());
+                        if(m.group(m.groupCount()).contains(",") || m.group(m.groupCount()).contains("\"")){
+                            line = line + quote + m.group(m.groupCount()) + quote;
+                        } else{
+                            line = line  + m.group(m.groupCount());
+                        }
                     }
                     else {
                         System.out.println("no match");
                     }
 
+                    
+
                     lines.add(line);
                 }
                 Path file = Paths.get(fileParsed);
                 Files.write(file, lines);
-            }
+                
+            }System.out.println("parsing complete!");
 
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
